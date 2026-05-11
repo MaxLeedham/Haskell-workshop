@@ -1,5 +1,6 @@
 -- Ignore this line, it just lets me redefine existing functions
-import Prelude hiding (sum, map, String)
+import Prelude hiding (sum, map, String, Bool, Maybe, True, False)
+import System.Directory (removeDirectoryRecursive)
 
 sum :: [Int] -> Int
 sum [] = 0
@@ -20,6 +21,23 @@ map f (x:xs) = f x : undefined
 map :: (a -> b) -> [a] -> [b]
 map f [] = []
 map f (x:xs) = f x : map f xs
+
+{-
+You can also define map without recursion, instead using list comprehension.
+
+map' :: (a -> b) -> [a] -> [b]
+map' f xs = []
+
+You can use `| x <- xs` to extract each element x from the list xs
+map' :: (a -> b) -> [a] -> [b]
+map' f xs = [undefined | x <- xs]
+
+The part to the left of the | guard is what is put in the list (for each element x in the original list).
+So we apply the function to each x
+-}
+
+map' :: (a -> b) -> [a] -> [b]
+map' f xs = [f x | x <- xs]
 
 {-
 removeLast function:
@@ -68,3 +86,28 @@ type R2 = (Float, Float)
 -- Type definitions can also include arguments
 type Matrix a = [[a]]
 -- E.g. `Matrix Int` will become `[[Int]]`, `Matrix String` will become `[[String]]`
+
+
+-- You can also create your own brand new data types using `data`. 
+
+-- You seperate the "constructors" by | 
+data Bool = False | True
+
+-- You can then pattern match the "constructors" of your new type
+not :: Bool -> Bool
+not True = False
+not False = True
+
+-- Constructors can also have parameters
+data Shape = Circle Float | Rect Float Float
+
+square :: Float -> Shape
+square n = Rect n n
+
+-- Data declerations can also be paramterised
+data Maybe a = Nothing | Just a
+
+-- They can also be recursive
+data Tree a = Leaf a | Node [Tree a] -- General tree with any number of nodes
+data BTree a = BLeaf a | BNode (BTree a) (BTree a) | Null -- Binary tree
+
