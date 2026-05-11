@@ -1,6 +1,6 @@
 -- Ignore this line, it just lets me redefine existing functions
 import Prelude hiding (sum, map, String, Bool, Maybe, True, False)
-import System.Directory (removeDirectoryRecursive)
+import System.IO -- Ignore this import, it just prevents problems if you compile this file
 
 sum :: [Int] -> Int
 sum [] = 0
@@ -111,3 +111,31 @@ data Maybe a = Nothing | Just a
 data Tree a = Leaf a | Node [Tree a] -- General tree with any number of nodes
 data BTree a = BLeaf a | BNode (BTree a) (BTree a) | Null -- Binary tree
 
+------------------------------------------------------------------------------
+
+{-
+`IO a` is the type for "impure actions" (things that have side effects) that return type a.
+
+`return :: a -> IO a` lets you go from "pure" to "impure" (used if you need to return IO a but only have type a)
+`getLine :: IO String` gets input from the user
+`putStr` and `putStrLn :: String -> IO ()` lets you print text to the screen
+
+
+To write "interactive" programs, the return type must finish with IO type and use "do notation".
+For example, hello world
+-}
+helloWorld :: IO ()
+helloWorld = do
+    putStrLn "Hello, World!"
+
+-- Use `variable <- IO function` notation to "unwrap" the value out of IO
+-- So `name <- getLine` will make `name` String
+main :: IO ()
+main = do
+    -- Ignore this line, it just prevents problems if you compile this file
+    hSetBuffering stdout NoBuffering
+
+    putStr "What is your name? "
+    name <- getLine
+    putStr "Hello "
+    putStrLn name
