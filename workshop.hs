@@ -1,4 +1,5 @@
--- Ignore this line, it just lets me redefine existing functions
+-- Ignore these line, it just lets me redefine existing functions
+import qualified Prelude
 import Prelude hiding (sum, map, String, Bool, Maybe, True, False)
 import System.IO -- Ignore this import, it just prevents problems if you compile this file
 
@@ -109,7 +110,7 @@ data Maybe a = Nothing | Just a
 
 -- They can also be recursive
 data Tree a = Leaf a | Node [Tree a] -- General tree with any number of nodes
-data BTree a = BLeaf a | BNode (BTree a) (BTree a) | Null -- Binary tree
+data BTree a = BLeaf a | BNode (BTree a) (BTree a) -- Binary tree
 
 ------------------------------------------------------------------------------
 
